@@ -45,6 +45,27 @@ class User:
                 users.append(cls(*i))
         return users
     
+    # @classmethod
+    # def get_one(cls, user):
+    #     query = """SELECT * FROM users WHERE id_user = %s """
+    #     params = user.id_user,
+    #     result = DatabaseConnection.fetch_one("discord_db", query, params)
+    #     if result is not None:
+    #         user_dict = {
+    #             "id_user": result[0],
+    #             "first_name": result[1],
+    #             "last_name": result[2],
+    #             "nick_name": result[3],
+    #             "email": result[4],
+    #             "birth_date": result[5],
+    #             "password": result[6],
+    #             "image": result[7]
+    #         }
+    #         return cls(**user_dict)
+    #     return None
+    
+    
+    
     @classmethod
     def get_one(cls, user):
         query= """SELECT * FROM users WHERE id_user = %s """ #obtiene 1 usuario por Id_user
