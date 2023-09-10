@@ -1,3 +1,5 @@
+# hace falta in stalar: pip install python-decouple para poder usar .env
+from decouple import config
 import mysql.connector 
 class DatabaseConnection: 
     _connection = {} 
@@ -6,10 +8,10 @@ class DatabaseConnection:
     def get_connection(cls, name_base):
         if name_base not in cls._connection:
             cls._connection[name_base] = mysql.connector.connect(
-                host='127.0.0.1',
-                user='cristian',
-                port="3306",
-                password='1234',
+                host=config("DATABASE_HOST"),
+                user=config("DATABASE_USERNAME"),
+                port=config("DATABASE_PORT"),
+                password=config("DATABASE_PASSWORD"),
                 database=name_base
             )
         return cls._connection[name_base]
