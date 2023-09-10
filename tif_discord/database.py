@@ -7,9 +7,9 @@ class DatabaseConnection:
         if name_base not in cls._connection:
             cls._connection[name_base] = mysql.connector.connect(
                 host='127.0.0.1',
-                user='paolo',
+                user='cristian',
                 port="3306",
-                password='paolo3086',
+                password='1234',
                 database=name_base
             )
         return cls._connection[name_base]
