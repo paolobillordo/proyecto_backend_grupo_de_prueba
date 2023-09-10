@@ -2,25 +2,25 @@ from flask import jsonify
 from ..database import DatabaseConnection
 
 class User:
-    def __init__(self,**kwargs):
-        self.id_user = kwargs.get('id_user', None)
-        self.first_name = kwargs.get('first_name', None)
-        self.last_name = kwargs.get('last_name', None)
-        self.nick_name = kwargs.get('nick_name', None)
-        self.email = kwargs.get('email', None)
-        self.birth_date = kwargs.get('birth_date', None)
-        self.password = kwargs.get('password', None)
-        self.image = kwargs.get('image', None)
+    # def __init__(self,**kwargs):
+    #     self.id_user = kwargs.get('id_user', )
+    #     self.first_name = kwargs.get('first_name',)
+    #     self.last_name = kwargs.get('last_name', )
+    #     self.nick_name = kwargs.get('nick_name', )
+    #     self.email = kwargs.get('email', )
+    #     self.birth_date = kwargs.get('birth_date', )
+    #     self.password = kwargs.get('password', )
+    #     self.image = kwargs.get('image', )
 
-    # def __init__(self,id_user = None, first_name = None, last_name = None, nick_name = None, email = None, birth_date = None, password = None, image = None):
-    #     self.id_user= id_user
-    #     self.first_name = first_name
-    #     self.last_name = last_name
-    #     self.nick_name = nick_name
-    #     self.email = email
-    #     self.birth_date = birth_date
-    #     self.password = password
-    #     self.image = image
+    def __init__(self,id_user = None, first_name = None, last_name = None, nick_name = None, email = None, birth_date = None, password = None, image = None):
+        self.id_user= id_user
+        self.first_name = first_name
+        self.last_name = last_name
+        self.nick_name = nick_name
+        self.email = email
+        self.birth_date = birth_date
+        self.password = password
+        self.image = image
 
     def serialize(self):
         return {
@@ -44,6 +44,27 @@ class User:
             for i in result:
                 users.append(cls(*i))
         return users
+    
+    # @classmethod
+    # def get_one(cls, user):
+    #     query = """SELECT * FROM users WHERE id_user = %s """
+    #     params = user.id_user,
+    #     result = DatabaseConnection.fetch_one("discord_db", query, params)
+    #     if result is not None:
+    #         user_dict = {
+    #             "id_user": result[0],
+    #             "first_name": result[1],
+    #             "last_name": result[2],
+    #             "nick_name": result[3],
+    #             "email": result[4],
+    #             "birth_date": result[5],
+    #             "password": result[6],
+    #             "image": result[7]
+    #         }
+    #         return cls(**user_dict)
+    #     return None
+    
+    
     
     @classmethod
     def get_one(cls, user):
