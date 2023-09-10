@@ -28,6 +28,9 @@ class ChannelController:
     def update_channel(cls, id_channel):
         data= request.json
         data['id_channel'] = id_channel
+        channel = Channel(**data)
+        Channel.update_channel(channel)
+        return {"mensaje": "Canal modificado con exito"},200
     
     @classmethod
     def delete_channel(cls, id_channel):
