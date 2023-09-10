@@ -2,25 +2,25 @@ from flask import jsonify
 from ..database import DatabaseConnection
 
 class User:
-    def __init__(self,**kwargs):
-        self.id_user = kwargs.get('id_user', None)
-        self.first_name = kwargs.get('first_name', None)
-        self.last_name = kwargs.get('last_name', None)
-        self.nick_name = kwargs.get('nick_name', None)
-        self.email = kwargs.get('email', None)
-        self.birth_date = kwargs.get('birth_date', None)
-        self.password = kwargs.get('password', None)
-        self.image = kwargs.get('image', None)
+    # def __init__(self,**kwargs):
+    #     self.id_user = kwargs.get('id_user', None)
+    #     self.first_name = kwargs.get('first_name', None)
+    #     self.last_name = kwargs.get('last_name', None)
+    #     self.nick_name = kwargs.get('nick_name', None)
+    #     self.email = kwargs.get('email', None)
+    #     self.birth_date = kwargs.get('birth_date', None)
+    #     self.password = kwargs.get('password', None)
+    #     self.image = kwargs.get('image', None)
 
-    # def __init__(self,id_user = None, first_name = None, last_name = None, nick_name = None, email = None, birth_date = None, password = None, image = None):
-    #     self.id_user= id_user
-    #     self.first_name = first_name
-    #     self.last_name = last_name
-    #     self.nick_name = nick_name
-    #     self.email = email
-    #     self.birth_date = birth_date
-    #     self.password = password
-    #     self.image = image
+    def __init__(self,id_user = None, first_name = None, last_name = None, nick_name = None, email = None, birth_date = None, password = None, image = None):
+        self.id_user= id_user
+        self.first_name = first_name
+        self.last_name = last_name
+        self.nick_name = nick_name
+        self.email = email
+        self.birth_date = birth_date
+        self.password = password
+        self.image = image
 
     def serialize(self):
         return {
@@ -62,15 +62,15 @@ class User:
 
     @classmethod
     def update_user(cls, user):
-        claves = {"first_name", "last_name", "nick_name", "email", "birth_date", "password"}
+        claves = {"first_name", "last_name", "nick_name", "email", "birth_date", "password", "image"}
         query_parts = []
         params = []
         for key, values in user.__dict__.items():
-            if key in claves:
+            if key in claves and values is not None:
                 query_parts.append(f"{key}=%s") 
                 params.append(values)
         params.append(user.id_user)
-        query = f"UPDATE users SET {','.join(query_parts)} WHERE id_user = %s"
+        query = "UPDATE users SET " + ", ".join(query_parts) + " WHERE id_user = %s"
         DatabaseConnection.execute_query("discord_db", query, params)
     
     

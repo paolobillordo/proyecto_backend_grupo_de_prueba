@@ -22,17 +22,18 @@ class UserController:
         data= request.json
         user = User(**data)
         User.create_user(user)
-        return {"Usuario creado con exito"},201
+        return {"mensaje": "Usuario creado con exito"},201
     
     @classmethod
     def update_user(cls, id_user):
         data= request.json
-        user = User(id_user=id_user, **data)
+        data['id_user'] = id_user
+        user = User(**data)
         User.update_user(user)
-        return {"Usuario actualizado con exito"},200
+        return {"mensaje": "Usuario actualizado con exito"},200
     
     @classmethod
     def delete_user(cls, id_user):
         user= User(id_user=id_user)
         User.delete_user(user)
-        return {"Usuario eliminado con exito"},204
+        return {"mensaje": "Usuario eliminado con exito"},204
