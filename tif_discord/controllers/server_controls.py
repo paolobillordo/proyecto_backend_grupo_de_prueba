@@ -22,7 +22,7 @@ class ServerController:
         data= request.json
         server = Servers(**data)
         Servers.create_server(server)
-        return {"mensaje": "Server creado con exito"},201
+        return {"mensaje": "Servidor creado con exito"},201
     
     @classmethod
     def update_server(cls, id_server):
