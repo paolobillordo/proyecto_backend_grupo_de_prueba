@@ -1,5 +1,5 @@
 from  ..models.user_models import User
-from flask import request, jsonify
+from flask import request, jsonify, session
 
 class UserController:
     @classmethod
@@ -37,3 +37,20 @@ class UserController:
         user= User(id_user=id_user)
         User.delete_user(user)
         return {"mensaje": "Usuario eliminado con exito"},204
+    
+    @classmethod
+    def login(cls):
+        data = request.json
+        user = User(
+            email = data.get('email'),
+            password = data.get('password')
+        )
+        if User.exist_user(user):
+            session['email'] = data.get('email')
+            return {"message": "Sesión iniciada"}, 200
+        return {"message": "Usuario o contraseña incorrectos"}, 401
+    
+    @classmethod
+    def logout(cls):
+        session.pop('email', None)
+        return {"message": "Sesión cerrada"}, 200
