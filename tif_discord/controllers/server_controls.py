@@ -1,5 +1,5 @@
 from ..models.server_models import Servers  
-from flask import request, jsonify
+from flask import request, jsonify, session
 
 class ServerController:
     @classmethod
@@ -9,6 +9,18 @@ class ServerController:
         for Server in servers:
             servers_list.append(Server.serialize())
         return jsonify(servers_list), 200
+
+    @classmethod
+    def get_servers_user(cls):
+        id_user = session.get('id_user')
+        servers= Servers.get_servers_user(id_user) 
+        servers_list= []
+        for Server in servers:
+            session[Server.name_server] = Server.id_server
+            servers_list.append(Server.serialize())
+        return jsonify(servers_list), 200
+
+
     
     @classmethod
     def get_one(cls, id_server):

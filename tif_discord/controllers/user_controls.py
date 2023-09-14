@@ -1,6 +1,5 @@
 from  ..models.user_models import User
-from flask import request, jsonify, session
-
+from flask import Flask, request, jsonify, session
 class UserController:
     @classmethod
     def get_all(cls):
@@ -45,12 +44,18 @@ class UserController:
             email = data.get('email'),
             password = data.get('password')
         )
-        if User.exist_user(user):
-            session['email'] = data.get('email')
+        user = User.exist_user(user)
+        if user:            
+            session['id_user'] = user.id_user            
             return {"message": "Sesión iniciada"}, 200
         return {"message": "Usuario o contraseña incorrectos"}, 401
     
     @classmethod
     def logout(cls):
-        session.pop('email', None)
+        session.clear()
         return {"message": "Sesión cerrada"}, 200
+    
+    @classmethod
+    def get_session(cls):
+        
+        return {'SESSION': session} 

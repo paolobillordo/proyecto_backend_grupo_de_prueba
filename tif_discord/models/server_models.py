@@ -29,6 +29,17 @@ class Servers:
         return servers
     
     @classmethod
+    def get_servers_user(cls, id_user):
+        query = "SELECT B.* FROM use_ser AS A INNER JOIN servers AS B ON A.id_server = B.Id_server WHERE A.Id_user = %s" #"SELECT * FROM servers INNER JOIN use_ser ON servers.id_server = use_ser.id_server WHERE id_user = %s "
+        params = id_user,
+        result = DatabaseConnection.fetch_all("discord_db", query, params)
+        servers = []
+        if result is not None:
+            for i in result:
+                servers.append(cls(*i))
+        return servers    
+    
+    @classmethod
     def get_one(cls,server):
         query = "SELECT * FROM servers WHERE id_server = %s"
         params = server.id_server,

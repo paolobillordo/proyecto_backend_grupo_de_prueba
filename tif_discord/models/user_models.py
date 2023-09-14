@@ -107,7 +107,7 @@ class User:
         params= (user.email, user.password)
         result= DatabaseConnection.fetch_one("discord_db", query, params)
         if result is not None:
-            return True
+            return cls(*result)
         return False
 
 
