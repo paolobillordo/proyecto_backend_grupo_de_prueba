@@ -1,4 +1,4 @@
-from ..models.server_models import Servers  
+from ..models.server_models import Servers
 from flask import request, jsonify, session
 
 class ServerController:
@@ -31,10 +31,22 @@ class ServerController:
         
     @classmethod
     def create_server(cls):
+        print("1")
         data= request.json
+        data['id_user'] = session.get("id_user")
+        print(data)
         server = Servers(**data)
-        Servers.create_server(server)
+        Servers.create_server(server)                
         return {"mensaje": "Servidor creado con exito"},201
+    
+    @classmethod
+    def create_use_ser(cls):
+        data = request.json
+        result = Servers.get_by_name(data.name_server)
+        if result:
+            Servers.create_use_ser(result.id_server)
+            return {"mensaje": "Relacion creada con exito"}, 201
+        return {"mensaje": "No se pudo crear la relacion use_ser"},400
     
     @classmethod
     def update_server(cls, id_server):
