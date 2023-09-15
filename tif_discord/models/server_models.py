@@ -1,4 +1,4 @@
-from flask import jsonify, session
+from flask import session
 from ..database import DatabaseConnection
 
 class Servers:
@@ -99,9 +99,9 @@ class Servers:
     
     @classmethod
     def create_use_ser(cls, id_server):
-        print("6")
         id_user = session.get("id_user")
         query = """INSERT INTO use_ser (id_user, id_server) VALUE (%s,%s)"""
         params = id_user, id_server
+        print(params)
         DatabaseConnection.execute_query("discord_db", query, params)
 

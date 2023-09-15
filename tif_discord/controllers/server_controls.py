@@ -36,15 +36,14 @@ class ServerController:
         data['id_user'] = session.get("id_user")
         print(data)
         server = Servers(**data)
-        Servers.create_server(server)                
+        Servers.create_server(server)                        
         return {"mensaje": "Servidor creado con exito"},201
     
     @classmethod
-    def create_use_ser(cls):
-        data = request.json
-        result = Servers.get_by_name(data.name_server)
+    def create_use_ser(cls, name_server):        
+        result = Servers.get_by_name(name_server)
         if result:
-            Servers.create_use_ser(result.id_server)
+            Servers.create_use_ser(result.id_server)            
             return {"mensaje": "Relacion creada con exito"}, 201
         return {"mensaje": "No se pudo crear la relacion use_ser"},400
     
