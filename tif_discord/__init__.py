@@ -11,6 +11,7 @@ def init_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     CORS(app, supports_credentials=True)
+    app.secret_key = Config.SECRET_KEY
 
     app.register_blueprint(user_bp, url_prefix = '/users')
     app.register_blueprint(server_bp, url_prefix = '/servers')

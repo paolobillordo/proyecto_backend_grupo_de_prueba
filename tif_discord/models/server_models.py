@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, session
 from ..database import DatabaseConnection
 
 class Servers:
@@ -29,6 +29,17 @@ class Servers:
         return servers
     
     @classmethod
+    def get_servers_user(cls, id_user):
+        query = "SELECT B.* FROM use_ser AS A INNER JOIN servers AS B ON A.id_server = B.Id_server WHERE A.Id_user = %s" #"SELECT * FROM servers INNER JOIN use_ser ON servers.id_server = use_ser.id_server WHERE id_user = %s "
+        params = id_user,
+        result = DatabaseConnection.fetch_all("discord_db", query, params)
+        servers = []
+        if result is not None:
+            for i in result:
+                servers.append(cls(*i))
+        return servers    
+    
+    @classmethod
     def get_one(cls,server):
         query = "SELECT * FROM servers WHERE id_server = %s"
         params = server.id_server,
@@ -38,10 +49,25 @@ class Servers:
         return None # aca va un error
     
     @classmethod
-    def create_server(cls,server):
+    def get_by_name(cls,name_server):
+        print("4")
+        query = "SELECT id_server FROM servers WHERE name_server = %s"
+        params = name_server,
+        result = DatabaseConnection.fetch_one("discord_db", query, params)
+        if result is not None:
+            return cls(*result)
+        return False # aca va un error
+    
+    @classmethod
+    def create_server(cls,server):        
         query = """INSERT INTO servers (name_server, description, id_user, icono) VALUE (%s,%s,%s,%s)"""
         params = server.name_server, server.description, server.id_user, server.icono
-        DatabaseConnection.execute_query("discord_db", query, params)
+        try:
+            DatabaseConnection.execute_query("discord_db", query, params)
+            return True
+        except Exception as e:
+            print(f"Error al insertar en la base de datos: {str(e)}")
+        return False 
 
     @classmethod
     def update_server(cls, server):
@@ -70,4 +96,12 @@ class Servers:
         if result is not None:
             return True
         return False
+    
+    @classmethod
+    def create_use_ser(cls, id_server):
+        print("6")
+        id_user = session.get("id_user")
+        query = """INSERT INTO use_ser (id_user, id_server) VALUE (%s,%s)"""
+        params = id_user, id_server
+        DatabaseConnection.execute_query("discord_db", query, params)
 
