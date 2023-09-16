@@ -49,8 +49,7 @@ class Servers:
         return None # aca va un error
     
     @classmethod
-    def get_by_name(cls,name_server):
-        print("4")
+    def get_by_name(cls,name_server):        
         query = "SELECT id_server FROM servers WHERE name_server = %s"
         params = name_server,
         result = DatabaseConnection.fetch_one("discord_db", query, params)
@@ -101,7 +100,6 @@ class Servers:
     def create_use_ser(cls, id_server):
         id_user = session.get("id_user")
         query = """INSERT INTO use_ser (id_user, id_server) VALUE (%s,%s)"""
-        params = id_user, id_server
-        print(params)
+        params = id_user, id_server        
         DatabaseConnection.execute_query("discord_db", query, params)
 
