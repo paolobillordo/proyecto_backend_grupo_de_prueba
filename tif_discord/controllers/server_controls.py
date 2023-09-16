@@ -40,8 +40,9 @@ class ServerController:
         return {"mensaje": "Servidor creado con exito"},201
     
     @classmethod
-    def create_use_ser(cls, name_server):        
-        result = Servers.get_by_name(name_server)
+    def create_use_ser(cls):
+        data = request.json
+        result = Servers.get_by_name(data['name_server'])
         if result:
             Servers.create_use_ser(result.id_server)            
             return {"mensaje": "Relacion creada con exito"}, 201
