@@ -1,10 +1,11 @@
 from ..models.channel_model import Channel
-from flask import request, jsonify
+from flask import request, jsonify, session
 
 class ChannelController:
     @classmethod
-    def get_all(cls):
-        channels= Channel.get_all()
+    def get_all(cls, name_server):           
+        id_server = session.get(name_server)
+        channels= Channel.get_all(id_server)
         channels_list= []
         for channel in channels:
             channels_list.append(channel.serialize())

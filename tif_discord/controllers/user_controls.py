@@ -56,6 +56,5 @@ class UserController:
         return {"message": "Sesión cerrada"}, 200
     
     @classmethod
-    def get_session(cls):
-        
+    def get_session(cls):        
         return {'SESSION': session} 
