@@ -20,9 +20,10 @@ class Message:
         }
     
     @classmethod
-    def get_all(cls):
-        query = """SELECT * FROM messages"""
-        result = DatabaseConnection.fetch_all("discord_db", query)
+    def get_all(cls, id_channel):
+        query = """SELECT * FROM messages WHERE id_channel = %s"""
+        params = id_channel,
+        result = DatabaseConnection.fetch_all("discord_db", query, params)
         messages = []
         if result is not None:
             for i in result:
