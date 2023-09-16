@@ -3,8 +3,8 @@ from flask import request, jsonify
 
 class MessageController:
     @classmethod
-    def get_all(cls):
-        messages= Message.get_all() 
+    def get_all(cls, id_channel):
+        messages = Message.get_all(id_channel) 
         messages_list= []
         for message in messages:
             messages_list.append(message.serialize())
