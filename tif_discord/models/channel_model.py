@@ -21,9 +21,10 @@ class Channel:
         }
     
     @classmethod
-    def get_all(cls):
-        query = """SELECT * FROM channels"""
-        result = DatabaseConnection.fetch_all("discord_db", query)
+    def get_all(cls, id_server):
+        query = """SELECT * FROM channels WHERE id_server = %s"""
+        params = id_server,
+        result = DatabaseConnection.fetch_all("discord_db", query, params)
         channels = []
         if result is not None:
             for i in result:
