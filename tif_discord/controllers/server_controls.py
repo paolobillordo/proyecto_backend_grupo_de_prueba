@@ -30,11 +30,9 @@ class ServerController:
             return jsonify(result.serialize()), 200
         
     @classmethod
-    def create_server(cls):
-        print("1")
-        data= request.json
-        data['id_user'] = session.get("id_user")
-        print(data)
+    def create_server(cls):        
+        data = request.json
+        data['id_user'] = session.get("id_user")        
         server = Servers(**data)
         Servers.create_server(server)                        
         return {"mensaje": "Servidor creado con exito"},201
