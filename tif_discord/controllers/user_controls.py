@@ -58,3 +58,11 @@ class UserController:
     @classmethod
     def get_session(cls):        
         return {'SESSION': session} 
+
+    @classmethod
+    def show_profile(cls):
+        id_user= session.get("id_user")
+        user= User(id_user=id_user)
+        result= User.get_one(user)
+        if result is not None:
+            return jsonify(result.serialize()), 200
