@@ -42,8 +42,8 @@ class Channel:
     
     @classmethod
     def create_channel(cls, channel):
-        query = """INSERT INTO channels (name_channel, description, id_server, id_user, create_date) VALUES (%s, %s, %s, %s, %s)"""
-        params = (channel.name_channel, channel.description, channel.id_server, channel.id_user, channel.create_date)
+        query = """INSERT INTO channels (name_channel, description, id_server, id_user) VALUES (%s, %s, %s, %s)"""
+        params = (channel.name_channel, channel.description, channel.id_server, channel.id_user)
         DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod

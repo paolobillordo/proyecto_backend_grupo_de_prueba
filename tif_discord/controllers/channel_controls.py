@@ -20,7 +20,8 @@ class ChannelController:
     
     @classmethod
     def create_channel(cls):
-        data= request.json
+        data = request.json
+        data['id_user'] = session.get('id_user')
         channel = Channel(**data)
         Channel.create_channel(channel)
         return {"mensaje": "Canal creado con exito"},201
