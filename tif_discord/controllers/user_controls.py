@@ -56,8 +56,10 @@ class UserController:
         return {"message": "Sesión cerrada"}, 200
     
     @classmethod
-    def get_session(cls):        
-        return {'SESSION': session} 
+    def get_session(cls):
+        if session.get('id_user') is not None:
+            return {'SESSION': session},200
+        return {'SESSION': 'NO hay session iniciada'}, 400
 
     @classmethod
     def show_profile(cls):
