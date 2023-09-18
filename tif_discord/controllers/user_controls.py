@@ -59,7 +59,7 @@ class UserController:
     def get_session(cls):
         if session.get('id_user') is not None:
             return {'SESSION': session},200
-        return {'SESSION': 'NO hay session iniciada'}, 400
+        return {'SESSION': 'NO hay session iniciada'}, 204
 
     @classmethod
     def show_profile(cls):
