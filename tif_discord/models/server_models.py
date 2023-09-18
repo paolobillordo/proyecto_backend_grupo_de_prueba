@@ -21,7 +21,7 @@ class Servers:
     @classmethod
     def get_all(cls):
         query = """SELECT * FROM servers"""
-        result = DatabaseConnection.fetch_all("discord_db", query)
+        result = DatabaseConnection.fetch_all("railway", query)
         servers = []
         if result is not None:
             for i in result:
@@ -32,7 +32,7 @@ class Servers:
     def get_servers_user(cls, id_user):
         query = "SELECT B.* FROM use_ser AS A INNER JOIN servers AS B ON A.id_server = B.Id_server WHERE A.Id_user = %s" #"SELECT * FROM servers INNER JOIN use_ser ON servers.id_server = use_ser.id_server WHERE id_user = %s "
         params = id_user,
-        result = DatabaseConnection.fetch_all("discord_db", query, params)
+        result = DatabaseConnection.fetch_all("railway", query, params)
         servers = []
         if result is not None:
             for i in result:
@@ -43,7 +43,7 @@ class Servers:
     def get_one(cls,server):
         query = "SELECT * FROM servers WHERE id_server = %s"
         params = server.id_server,
-        result = DatabaseConnection.fetch_one("discord_db", query, params)
+        result = DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)
         return None # aca va un error
@@ -52,7 +52,7 @@ class Servers:
     def get_by_name(cls,name_server):        
         query = "SELECT id_server FROM servers WHERE name_server = %s"
         params = name_server,
-        result = DatabaseConnection.fetch_one("discord_db", query, params)
+        result = DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)
         return False # aca va un error
@@ -62,7 +62,7 @@ class Servers:
         query = """INSERT INTO servers (name_server, description, id_user, icono) VALUE (%s,%s,%s,%s)"""
         params = server.name_server, server.description, server.id_user, server.icono
         try:
-            DatabaseConnection.execute_query("discord_db", query, params)
+            DatabaseConnection.execute_query("railway", query, params)
             return True
         except Exception as e:
             print(f"Error al insertar en la base de datos: {str(e)}")
@@ -79,19 +79,19 @@ class Servers:
                 params.append(values)
         params.append(server.id_server)
         query = "UPDATE servers SET " + ", ".join(query_parts) + " WHERE id_server = %s"
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def delete_server(cls, server):
         query= """DELETE FROM servers WHERE id_server = %s"""
         params= server.id_server,
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def exist_user(cls, server):
         query= """SELECT * FROM servers WHERE id_server = %s"""
         params= server.id_server,
-        result= DatabaseConnection.fetch_one("discord_db", query, params)
+        result= DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return True
         return False
@@ -101,5 +101,5 @@ class Servers:
         id_user = session.get("id_user")
         query = """INSERT INTO use_ser (id_user, id_server) VALUE (%s,%s)"""
         params = id_user, id_server        
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 

@@ -38,7 +38,7 @@ class User:
     @classmethod
     def get_all(cls):
         query= """SELECT * FROM users """ #por si necesitamos todos los usuarios
-        result= DatabaseConnection.fetch_all("discord_db", query)
+        result= DatabaseConnection.fetch_all("railway", query)
         users= []
         if result is not None:
             for i in result:
@@ -49,7 +49,7 @@ class User:
     # def get_one(cls, user):
     #     query = """SELECT * FROM users WHERE id_user = %s """
     #     params = user.id_user,
-    #     result = DatabaseConnection.fetch_one("discord_db", query, params)
+    #     result = DatabaseConnection.fetch_one("railway", query, params)
     #     if result is not None:
     #         user_dict = {
     #             "id_user": result[0],
@@ -70,7 +70,7 @@ class User:
     def get_one(cls, user):
         query= """SELECT * FROM users WHERE id_user = %s """ #obtiene 1 usuario por Id_user
         params= user.id_user,
-        result= DatabaseConnection.fetch_one("discord_db", query, params)
+        result= DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)
         return None # aca va un error
@@ -79,7 +79,7 @@ class User:
     def create_user(cls, user):
         query= """INSERT INTO users (first_name, last_name, nick_name, email, birth_date, password) VALUE (%s,%s,%s,%s,%s,%s)"""
         params= user.first_name, user.last_name, user.nick_name, user.email, user.birth_date, user.password
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def update_user(cls, user):
@@ -92,20 +92,20 @@ class User:
                 params.append(values)
         params.append(user.id_user)
         query = "UPDATE users SET " + ", ".join(query_parts) + " WHERE id_user = %s"
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
     
     
     @classmethod
     def delete_user(cls, user):
         query= """DELETE FROM users WHERE id_user = %s"""
         params= user.id_user,
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def exist_user(cls, user):
         query= """SELECT * FROM users WHERE email = %s and password = %s"""
         params= (user.email, user.password)
-        result= DatabaseConnection.fetch_one("discord_db", query, params)
+        result= DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)
         return False

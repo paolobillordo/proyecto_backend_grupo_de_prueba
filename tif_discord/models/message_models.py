@@ -23,7 +23,7 @@ class Message:
     def get_all(cls, id_channel):
         query = """SELECT * FROM messages WHERE id_channel = %s"""
         params = id_channel,
-        result = DatabaseConnection.fetch_all("discord_db", query, params)
+        result = DatabaseConnection.fetch_all("railway", query, params)
         messages = []
         if result is not None:
             for i in result:
@@ -34,7 +34,7 @@ class Message:
     def get_one(cls,message):
         query = "SELECT * FROM messages WHERE id_message = %s"
         params = message.id_message,
-        result = DatabaseConnection.fetch_one("discord_db", query, params)
+        result = DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)
         return None
@@ -43,9 +43,9 @@ class Message:
 
     @classmethod
     def create_message(cls,message):
-        query = """INSERT INTO messages (message, id_user, id_channel, create_date) VALUE (%s,%s,%s,%s)"""
-        params = message.message, message.id_user, message.id_channel, message.create_date
-        DatabaseConnection.execute_query("discord_db", query, params)
+        query = """INSERT INTO messages (message, id_user, id_channel) VALUE (%s,%s,%s)"""
+        params = message.message, message.id_user, message.id_channel
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def update_message(cls, message):
@@ -58,19 +58,19 @@ class Message:
                 params.append(values)
         params.append(message.id_server)
         query = "UPDATE messages SET " + ", ".join(query_parts) + " WHERE id_message = %s"
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def delete_message(cls, message):
         query= """DELETE FROM messages WHERE id_message = %s"""
         params= message.id_message,
-        DatabaseConnection.execute_query("discord_db", query, params)
+        DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
     def exist_user(cls, message):
         query= """SELECT * FROM servers WHERE id_message = %s"""
         params= message.id_message,
-        result= DatabaseConnection.fetch_one("discord_db", query, params)
+        result= DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return True
         return False

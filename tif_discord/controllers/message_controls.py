@@ -1,5 +1,5 @@
 from ..models.message_models import Message  
-from flask import request, jsonify
+from flask import request, jsonify, session
 
 class MessageController:
     @classmethod
@@ -19,10 +19,14 @@ class MessageController:
     
     # desde aca empece a editar
     @classmethod
-    def create_message(cls):
-        data= request.json
-        message = Message(**data)
-        Message.create_message(message)
+    def create_message(cls, message, id_channel):
+        data = request.json
+        data['message'] = message
+        data['id_channel'] = id_channel
+        data['id_user'] = session.get('id_user')
+        print(data)
+        mensaje = Message(**data)
+        Message.create_message(mensaje)
         return {"mensaje": "Mensaje creado con exito"},201
     
     @classmethod
