@@ -19,10 +19,8 @@ class MessageController:
     
     # desde aca empece a editar
     @classmethod
-    def create_message(cls, message, id_channel):
-        data = request.json
-        data['message'] = message
-        data['id_channel'] = id_channel
+    def create_message(cls):
+        data = request.json        
         data['id_user'] = session.get('id_user')
         print(data)
         mensaje = Message(**data)
