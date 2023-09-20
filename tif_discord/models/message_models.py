@@ -2,12 +2,14 @@ from flask import jsonify
 from ..database import DatabaseConnection
 
 class Message:
-    def __init__(self, id_message=None, message=None, id_user= None, id_channel=None, create_date=None):
+    def __init__(self, id_message=None, message=None, id_user= None, id_channel=None, create_date=None, nick_name=None, image=None):
         self.id_message = id_message
         self.message = message
         self.id_user = id_user
         self.id_channel = id_channel
         self.create_date = create_date
+        self.nick_name = nick_name
+        self.image = image
 
     
     def serialize(self):
@@ -16,12 +18,14 @@ class Message:
             "message": self.message,
             "id_user": self.id_user,
             "id_channel": self.id_channel,
-            "create_date": self.create_date  # Convertir a cadena si es necesario
+            "create_date": self.create_date,  # Convertir a cadena si es necesario
+            "nick_name": self.nick_name,
+            "image": self.image
         }
     
     @classmethod
     def get_all(cls, id_channel):
-        query = """SELECT * FROM messages WHERE id_channel = %s"""
+        query = """SELECT A.*, B.nick_name, B.image FROM messages AS A INNER JOIN users AS B ON A.id_user = B.id_user WHERE A.id_channel = %s"""
         params = id_channel,
         result = DatabaseConnection.fetch_all("railway", query, params)
         messages = []
