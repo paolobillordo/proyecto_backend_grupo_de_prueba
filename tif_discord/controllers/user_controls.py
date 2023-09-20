@@ -57,8 +57,11 @@ class UserController:
     
     @classmethod
     def get_session(cls):
-        if session.get('id_user') is not None:
-            return {'id_user': session.get('id_user')},200
+        if (session.get('id_user')):
+            id_user = session.get('id_user')
+            result= User.get_session(id_user)
+            if result is not None:
+                return jsonify(result.serialize()), 200                
         return {'SESSION': 'NO hay session iniciada'}, 204
 
     @classmethod

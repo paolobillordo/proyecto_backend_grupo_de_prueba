@@ -110,4 +110,11 @@ class User:
             return cls(*result)
         return False
 
-
+    @classmethod
+    def get_session(cls, id_user):
+        query= """SELECT * FROM users WHERE id_user = %s """
+        params= id_user,
+        result= DatabaseConnection.fetch_one("railway", query, params)
+        if result is not None:
+            return cls(*result)
+        return None # aca va un error
