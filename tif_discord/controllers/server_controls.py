@@ -34,12 +34,15 @@ class ServerController:
         data = request.json
         data['id_user'] = session.get("id_user")        
         server = Servers(**data)
-        Servers.create_server(server)                        
-        return {"mensaje": "Servidor creado con exito"},201
-    
+        respuesta = Servers.create_server(server)                        
+        if respuesta:
+            return {"mensaje": "Servidor creado con exito"},201
+        return {"mensaje": "No se pudo crear el servidor"},400
     @classmethod
     def create_use_ser(cls):
         data = request.json
+        if(session.get(data["name_server"]) is not None):
+            return {"mensaje": "ya estas unido a este servidoro a ese servidor"},204
         result = Servers.get_by_name(data['name_server'])
         if result:
             Servers.create_use_ser(result.id_server)            

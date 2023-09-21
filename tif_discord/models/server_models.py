@@ -66,7 +66,7 @@ class Servers:
             return True
         except Exception as e:
             print(f"Error al insertar en la base de datos: {str(e)}")
-        return False 
+            return False 
 
     @classmethod
     def update_server(cls, server):
