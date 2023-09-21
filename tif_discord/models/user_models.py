@@ -92,8 +92,13 @@ class User:
                 params.append(values)
         params.append(user.id_user)
         query = "UPDATE users SET " + ", ".join(query_parts) + " WHERE id_user = %s"
-        DatabaseConnection.execute_query("railway", query, params)
-    
+        
+        try:
+            DatabaseConnection.execute_query("railway", query, params)
+            return True
+        except Exception as e:
+            print(f"Error al modificar en la base de datos: {str(e)}")
+            return False 
     
     @classmethod
     def delete_user(cls, user):

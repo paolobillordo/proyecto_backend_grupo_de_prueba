@@ -24,12 +24,15 @@ class UserController:
         return {"mensaje": "Usuario creado con exito"},201
     
     @classmethod
-    def update_user(cls, id_user):
+    def update_user(cls):
         data= request.json
-        data['id_user'] = id_user
+        data['id_user'] = session.get('id_user')
         user = User(**data)
-        User.update_user(user)
-        return {"mensaje": "Usuario actualizado con exito"},200
+        respuesta = User.update_user(user)
+        if respuesta:
+            return {"mensaje": "Usuario actualizado con exito"},200
+        return {"mensaje": "dato duplicado"},404
+    
     
     @classmethod
     def delete_user(cls, id_user):
