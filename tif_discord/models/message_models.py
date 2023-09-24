@@ -25,7 +25,7 @@ class Message:
     
     @classmethod
     def get_all(cls, id_channel):
-        query = """SELECT A.*, B.nick_name, B.image FROM messages AS A INNER JOIN users AS B ON A.id_user = B.id_user WHERE A.id_channel = %s"""
+        query = """SELECT A.*, B.nick_name, B.image FROM messages AS A INNER JOIN users AS B ON A.id_user = B.id_user WHERE A.id_channel = %s ORDER BY A.create_date"""
         params = id_channel,
         result = DatabaseConnection.fetch_all("railway", query, params)
         messages = []
