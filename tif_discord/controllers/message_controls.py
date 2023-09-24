@@ -28,9 +28,8 @@ class MessageController:
         return {"mensaje": "Mensaje creado con exito"},201
     
     @classmethod
-    def update_message(cls, id_message):
+    def update_message(cls):
         data= request.json
-        data['id_message'] = id_message
         message = Message(**data)
         Message.update_message(message)
         return {"mensaje": "Mensaje actualizado con exito"},200

@@ -60,7 +60,7 @@ class Message:
             if key in claves and values is not None:
                 query_parts.append(f"{key}=%s") 
                 params.append(values)
-        params.append(message.id_server)
+        params.append(message.id_message)
         query = "UPDATE messages SET " + ", ".join(query_parts) + " WHERE id_message = %s"
         DatabaseConnection.execute_query("railway", query, params)
 
