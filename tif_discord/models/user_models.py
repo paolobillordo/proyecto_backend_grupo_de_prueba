@@ -77,8 +77,8 @@ class User:
     
     @classmethod
     def create_user(cls, user):
-        query= """INSERT INTO users (first_name, last_name, nick_name, email, birth_date, password) VALUE (%s,%s,%s,%s,%s,%s)"""
-        params= user.first_name, user.last_name, user.nick_name, user.email, user.birth_date, user.password
+        query= """INSERT INTO users (first_name, last_name, nick_name, email, birth_date, password, image) VALUE (%s,%s,%s,%s,%s,%s,%s)"""
+        params= user.first_name, user.last_name, user.nick_name, user.email, user.birth_date, user.password,user.image
         DatabaseConnection.execute_query("railway", query, params)
 
     @classmethod
