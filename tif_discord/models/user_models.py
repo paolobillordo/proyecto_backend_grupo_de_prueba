@@ -1,5 +1,7 @@
 from flask import jsonify
 from ..database import DatabaseConnection
+from mysql.connector import IntegrityError
+from ..models.errores_y_excepciones import DatoInvalido
 
 class User:
     # def __init__(self,**kwargs):
@@ -79,7 +81,22 @@ class User:
     def create_user(cls, user):
         query= """INSERT INTO users (first_name, last_name, nick_name, email, birth_date, password, image) VALUE (%s,%s,%s,%s,%s,%s,%s)"""
         params= user.first_name, user.last_name, user.nick_name, user.email, user.birth_date, user.password,user.image
-        DatabaseConnection.execute_query("railway", query, params)
+        try:
+            DatabaseConnection.execute_query("railway", query, params)
+            return True
+        except IntegrityError as e: 
+            mensaje_error = str(e)
+            if "Duplicate entry" in mensaje_error:
+                if "email" in mensaje_error:
+                    mensaje = "El correo electrónico ya está en uso."
+                elif "nick_name" in mensaje_error:
+                    mensaje = "El nombre de usuario ya está en uso."
+                else:
+                    mensaje = "Error de duplicado en la base de datos."
+            else:
+                mensaje = "Error de integridad en la base de datos."
+
+            raise DatoInvalido(description = mensaje)
 
     @classmethod
     def update_user(cls, user):

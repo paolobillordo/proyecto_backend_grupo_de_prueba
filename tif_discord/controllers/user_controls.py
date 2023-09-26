@@ -20,8 +20,10 @@ class UserController:
     def create_user(cls):
         data= request.json
         user = User(**data)
-        User.create_user(user)
-        return {"mensaje": "Usuario creado con exito"},201
+        respuesta = User.create_user(user)
+        if respuesta == True:
+            return {"mensaje": "Usuario creado con exito"},201
+        return respuesta
     
     @classmethod
     def update_user(cls):
