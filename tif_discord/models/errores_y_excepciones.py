@@ -21,12 +21,10 @@ class ExcepcionesPersonalizadas(Exception):
             return response
  
 
-
 class DatoInvalido(ExcepcionesPersonalizadas):
   def __init__(self, description = "Los datos ingresados no son válidos", name = "DatoInvalido", status_code = 400):
     super().__init__(status_code, name, description)
-    print(description)
-
+    
 
 
       

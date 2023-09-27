@@ -1,5 +1,7 @@
 from flask import jsonify
 from ..database import DatabaseConnection
+from mysql.connector import IntegrityError
+from ..models.errores_y_excepciones import DatoInvalido
 
 class Channel:
     def __init__(self,id_channel = None, name_channel = None, description = None, id_server = None, id_user = None, create_date = None):
@@ -44,7 +46,17 @@ class Channel:
     def create_channel(cls, channel):
         query = """INSERT INTO channels (name_channel, description, id_server, id_user) VALUES (%s, %s, %s, %s)"""
         params = (channel.name_channel, channel.description, channel.id_server, channel.id_user)
-        DatabaseConnection.execute_query("railway", query, params)
+        try:
+            DatabaseConnection.execute_query("railway", query, params)
+            return True
+        except IntegrityError as e: 
+            mensaje_error = str(e)
+            if "name_channel" in mensaje_error:
+               mensaje = "Ya existe un canal con este nombre."
+            else:
+               mensaje = "Error de integridad en la base de datos."
+
+            raise DatoInvalido(description = mensaje)
 
     @classmethod
     def update_channel(cls, channel):
