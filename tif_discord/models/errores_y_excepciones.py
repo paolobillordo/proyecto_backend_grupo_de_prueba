@@ -17,7 +17,6 @@ class ExcepcionesPersonalizadas(Exception):
                 }
             })
             response.status_code = self.status_code
-            print(response.status_code)
             return response
  
 

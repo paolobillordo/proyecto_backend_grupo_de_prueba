@@ -109,12 +109,10 @@ class User:
                 params.append(values)
         params.append(user.id_user)
         query = "UPDATE users SET " + ", ".join(query_parts) + " WHERE id_user = %s"
-        
         try:
             DatabaseConnection.execute_query("railway", query, params)
             return True
         except Exception as e:
-            print(f"Error al modificar en la base de datos: {str(e)}")
             return False 
     
     @classmethod
@@ -127,6 +125,7 @@ class User:
     def exist_user(cls, user):
         query= """SELECT * FROM users WHERE email = %s and password = %s"""
         params= (user.email, user.password)
+        
         result= DatabaseConnection.fetch_one("railway", query, params)
         if result is not None:
             return cls(*result)

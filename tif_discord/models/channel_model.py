@@ -51,11 +51,10 @@ class Channel:
             return True
         except IntegrityError as e: 
             mensaje_error = str(e)
-            if "name_channel" in mensaje_error:
-               mensaje = "Ya existe un canal con este nombre."
+            if "unique_name_server" in mensaje_error:  
+                mensaje = "Ya existe un canal con este nombre en este servidor."
             else:
-               mensaje = "Error de integridad en la base de datos."
-
+                mensaje = "Error de integridad en la base de datos."
             raise DatoInvalido(description = mensaje)
 
     @classmethod

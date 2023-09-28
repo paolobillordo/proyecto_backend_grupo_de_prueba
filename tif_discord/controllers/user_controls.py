@@ -1,5 +1,6 @@
 from  ..models.user_models import User
 from flask import Flask, request, jsonify, session
+from ..models.errores_y_excepciones import DatoInvalido
 class UserController:
     @classmethod
     def get_all(cls):
@@ -53,7 +54,8 @@ class UserController:
         if user:            
             session['id_user'] = user.id_user            
             return {"message": "Sesión iniciada"}, 200
-        return {"message": "Usuario o contraseña incorrectos"}, 401
+        mensaje = "Correo electronico o contraseña incorrecto"
+        raise DatoInvalido(description = mensaje, status_code= 401)
     
     @classmethod
     def logout(cls):
