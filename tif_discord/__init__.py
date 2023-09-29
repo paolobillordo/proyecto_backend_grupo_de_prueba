@@ -6,6 +6,7 @@ from .routes.server_bp import server_bp
 from .routes.channel_bp import channel_bp
 from .routes.message_bp import message_bp
 from .routes.manejador_error import error
+from .routes.invitacion_bp import invitacion_bp
 
 def init_app():
     app = Flask(__name__)
@@ -20,5 +21,6 @@ def init_app():
 
     app.register_blueprint(error)
 
+    app.register_blueprint(invitacion_bp, url_prefix = '/enviar_invitacion')
 
     return app
