@@ -29,7 +29,7 @@ CONSTRAINT user_fk FOREIGN KEY (id_user)
 REFERENCES users (id_user), -- ON DELETE CASCADE
 
 CONSTRAINT server_fk FOREIGN KEY (id_server)
-REFERENCES Servers (id_server) -- ON DELETE CASCADE
+REFERENCES servers (id_server) -- ON DELETE CASCADE
 )ENGINE=InnoDB;
 
 
